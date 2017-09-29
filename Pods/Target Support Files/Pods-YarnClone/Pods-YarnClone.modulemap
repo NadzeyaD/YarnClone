@@ -1,0 +1,6 @@
+framework module Pods_YarnClone {
+  umbrella header "Pods-YarnClone-umbrella.h"
+
+  export *
+  module * { export * }
+}
