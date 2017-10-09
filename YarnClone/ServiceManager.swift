@@ -15,7 +15,7 @@ class ServiceManager {
     static let instance = ServiceManager()
 
     func getStories(completion: @escaping(_ dog: [StoryHeader]?, _ error: Error?) ->() ){
-        let URL = "http://spookytalks.com/files/stories.json"
+        let URL = "https://raw.githubusercontent.com/NadzeyaD/Sabakar/master/stories.json"
         
         Alamofire.request(URL).responseArray { (response: DataResponse<[StoryHeader]>) in
             switch(response.result) {
@@ -31,7 +31,7 @@ class ServiceManager {
     
     func getFullStory(fileName: String, completion: @escaping(_ story: Story?, _ error: Error?) ->() ){
 
-        let url = "http://spookytalks.com/files/" + fileName
+        let url = "https://raw.githubusercontent.com/NadzeyaD/Sabakar/master/" + fileName
         Alamofire.request(url).responseObject { (response: DataResponse<Story>) in
             switch(response.result) {
             case .success(_):
