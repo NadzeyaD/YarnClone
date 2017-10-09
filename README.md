@@ -1,5 +1,5 @@
 # YarnClone
-Yarn clone (серверный функционал более недоступен)
+Yarn clone
 
 Задание:
 - сделать клон приложения https://itunes.apple.com/us/app/yarn-chat-fiction/id1195233335?mt=8 однако не стоит смотреть скрины в аппсторе - они неактуальны
