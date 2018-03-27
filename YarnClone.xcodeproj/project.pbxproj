@@ -30,6 +30,9 @@
 		209AA6971F5D7049006D442F /* StoryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209AA6961F5D7048006D442F /* StoryHeaderView.swift */; };
 		209AA6991F5E000C006D442F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209AA6981F5E000C006D442F /* Extensions.swift */; };
 		209AA69B1F5E0CA3006D442F /* ViewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209AA69A1F5E0CA3006D442F /* ViewHelper.swift */; };
+		243C320E206A46FF00726657 /* StoryListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243C320C206A46FF00726657 /* StoryListViewController.xib */; };
+		243C3212206A483700726657 /* StoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243C3210206A483700726657 /* StoryTableViewCell.xib */; };
+		243C321C206A522C00726657 /* StoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 243C321A206A522C00726657 /* StoryViewController.xib */; };
 		42961F809054530439A837F5 /* Pods_YarnClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EAB84BF0B753D33BD1519036 /* Pods_YarnClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +62,9 @@
 		209AA6961F5D7048006D442F /* StoryHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryHeaderView.swift; sourceTree = "<group>"; };
 		209AA6981F5E000C006D442F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		209AA69A1F5E0CA3006D442F /* ViewHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewHelper.swift; sourceTree = "<group>"; };
+		243C320C206A46FF00726657 /* StoryListViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoryListViewController.xib; sourceTree = "<group>"; };
+		243C3210206A483700726657 /* StoryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoryTableViewCell.xib; sourceTree = "<group>"; };
+		243C321A206A522C00726657 /* StoryViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = StoryViewController.xib; sourceTree = "<group>"; };
 		7146836ECB614E5891549D5C /* Pods-YarnClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YarnClone.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YarnClone/Pods-YarnClone.debug.xcconfig"; sourceTree = "<group>"; };
 		B600AF485DBFDF302EFE3B8E /* Pods-YarnClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YarnClone.release.xcconfig"; path = "Pods/Target Support Files/Pods-YarnClone/Pods-YarnClone.release.xcconfig"; sourceTree = "<group>"; };
 		EAB84BF0B753D33BD1519036 /* Pods_YarnClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YarnClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,29 +103,22 @@
 		209AA64E1F5C00C4006D442F /* YarnClone */ = {
 			isa = PBXGroup;
 			children = (
+				243C321D206A528D00726657 /* View */,
+				209AA6961F5D7048006D442F /* StoryHeaderView.swift */,
+				243C3214206A51C500726657 /* ViewControllers */,
 				209AA6911F5D456D006D442F /* Database */,
 				209AA67C1F5C376F006D442F /* Protocols */,
 				209AA6751F5C2E7C006D442F /* Extensions */,
 				209AA6701F5C28D7006D442F /* Common */,
 				209AA6651F5C21F4006D442F /* Services */,
-				209AA6641F5C21E7006D442F /* Views */,
+				209AA6641F5C21E7006D442F /* Views1 */,
 				209AA6631F5C21DF006D442F /* Models */,
 				209AA6621F5C21CB006D442F /* Storyboards */,
-				209AA6611F5C21B0006D442F /* ViewControllers */,
 				209AA64F1F5C00C4006D442F /* AppDelegate.swift */,
 				209AA6561F5C00C4006D442F /* Assets.xcassets */,
 				209AA65B1F5C00C4006D442F /* Info.plist */,
 			);
 			path = YarnClone;
-			sourceTree = "<group>";
-		};
-		209AA6611F5C21B0006D442F /* ViewControllers */ = {
-			isa = PBXGroup;
-			children = (
-				209AA6511F5C00C4006D442F /* StoryListViewController.swift */,
-				209AA6731F5C2977006D442F /* StoryViewController.swift */,
-			);
-			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		209AA6621F5C21CB006D442F /* Storyboards */ = {
@@ -141,16 +140,14 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
-		209AA6641F5C21E7006D442F /* Views */ = {
+		209AA6641F5C21E7006D442F /* Views1 */ = {
 			isa = PBXGroup;
 			children = (
-				209AA6781F5C314D006D442F /* StoryTableViewCell.swift */,
 				209AA6821F5C5BF6006D442F /* MessageCollectionViewCell.swift */,
 				209AA68D1F5CC266006D442F /* StoryView.swift */,
 				209AA68F1F5CDB47006D442F /* TimerView.swift */,
-				209AA6961F5D7048006D442F /* StoryHeaderView.swift */,
 			);
-			name = Views;
+			name = Views1;
 			sourceTree = "<group>";
 		};
 		209AA6651F5C21F4006D442F /* Services */ = {
@@ -195,6 +192,50 @@
 				209AA6921F5D45AA006D442F /* Database.swift */,
 			);
 			name = Database;
+			sourceTree = "<group>";
+		};
+		243C3214206A51C500726657 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				243C3216206A51E300726657 /* Story */,
+				243C3215206A51D100726657 /* StoryList */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		243C3215206A51D100726657 /* StoryList */ = {
+			isa = PBXGroup;
+			children = (
+				209AA6511F5C00C4006D442F /* StoryListViewController.swift */,
+				243C320C206A46FF00726657 /* StoryListViewController.xib */,
+			);
+			path = StoryList;
+			sourceTree = "<group>";
+		};
+		243C3216206A51E300726657 /* Story */ = {
+			isa = PBXGroup;
+			children = (
+				209AA6731F5C2977006D442F /* StoryViewController.swift */,
+				243C321A206A522C00726657 /* StoryViewController.xib */,
+			);
+			path = Story;
+			sourceTree = "<group>";
+		};
+		243C321D206A528D00726657 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				243C321E206A529A00726657 /* ViewCells */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		243C321E206A529A00726657 /* ViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				209AA6781F5C314D006D442F /* StoryTableViewCell.swift */,
+				243C3210206A483700726657 /* StoryTableViewCell.xib */,
+			);
+			path = ViewCells;
 			sourceTree = "<group>";
 		};
 		5874CD9037C616B3FFFA9DAC /* Frameworks */ = {
@@ -276,7 +317,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				243C321C206A522C00726657 /* StoryViewController.xib in Resources */,
 				209AA65A1F5C00C4006D442F /* LaunchScreen.storyboard in Resources */,
+				243C3212206A483700726657 /* StoryTableViewCell.xib in Resources */,
+				243C320E206A46FF00726657 /* StoryListViewController.xib in Resources */,
 				209AA6571F5C00C4006D442F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,13 +349,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YarnClone-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4B60AF9BC53974DE9E8E247C /* [CP] Embed Pods Frameworks */ = {
@@ -320,9 +367,24 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-YarnClone/Pods-YarnClone-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AlamofireObjectMapper/AlamofireObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/AutoLayoutHelperSwift/AutoLayoutHelperSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/SQLite.swift/SQLite.framework",
+				"${BUILT_PRODUCTS_DIR}/URLNavigator/URLNavigator.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlamofireObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AutoLayoutHelperSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nuke.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SQLite.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/URLNavigator.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

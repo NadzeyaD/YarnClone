@@ -15,34 +15,39 @@ final class StoryViewController: UIViewController {
     //MARK : Constants
     let storyUrl : String
     let cellIdentifier = "messageViewCell"
-    var headerView : StoryHeaderView!
+    
     fileprivate let itemsPerRow: CGFloat = 1
     fileprivate let sectionInsets = UIEdgeInsets(top: 15.0, left: 15.0, bottom: 15.0, right: 15.0)
     fileprivate let contentInsets = UIEdgeInsets(top: 60, left: 0.0, bottom: 270.0, right: 0.0)
     let timerInterval = 10
-    
+
     //MARK : Properties
     var story : Story? {
         didSet {
+            guard let story = story else { return }
             loadReadMessages()
             authorColors = assignColors()
             collectionView.reloadData()
             scrollToBottom()
-            headerView.storyNameLabel.text = story?.name
-            headerView.authorNameLabel.text = story?.authorName
+            storyNameLabel.text = story.name
+            authorLabel.text = story.authorName
         }
     }
-    var collectionView : UICollectionView!
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var storyNameLabel: UILabel!
+    @IBOutlet weak var authorLabel: UILabel!
+    @IBOutlet weak var storyHeaderView: UIView!
+    
     var cellWidth: CGFloat = 0
     var gestureRecognizer = UITapGestureRecognizer()
     var isFinished = false
     var storyView : StoryView?
     var count : Int = 0
     var nextStory : StoryHeader? {
-        didSet{
+        didSet {
              if story?.messages.filter({!$0.isShown}).count == 0 {
                 showNextStory()
-                }
+             }
         }
     }
     var timerView : TimerView?
@@ -65,13 +70,8 @@ final class StoryViewController: UIViewController {
     //MARK : Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureSubViews()
-        view.addSubview(collectionView)
-        view.addSubview(headerView)
-        view.backgroundColor = .white
-        view.isUserInteractionEnabled = true
-        gestureRecognizer.addTarget(self, action: #selector(showNextMessage))
-        view.addGestureRecognizer(gestureRecognizer)
+        
+        configureViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -102,54 +102,61 @@ final class StoryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if shownMessages.count > 0 {
-            Database.instance.updateStoryProgress(storyProgressRecord: StoryProgress(storyName: (story?.name)!, progress: takeProgressValue(), latestIndex: ((story?.messages.filter({$0.isShown}).count)! - 1)))
-        }
+        
+        guard let story = story, shownMessages.count > 0 else { return }
+
+        Database.instance.updateStoryProgress( storyProgressRecord: StoryProgress(storyName: story.name, progress: takeProgressValue(), latestIndex: (story.messages.filter({ $0.isShown }).count - 1)))
     }
     
-    func configureSubViews(){
-        let windowWidth = Int(view.bounds.width)
-        let layout = UICollectionViewFlowLayout()
-        
-        //Collection view
-        self.collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: windowWidth, height: Int(self.view.bounds.height)), collectionViewLayout: layout)
-        self.collectionView.delegate   = self
-        self.collectionView.dataSource = self
-        self.collectionView.backgroundColor = .white
-        self.collectionView.register(MessageCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
-        self.collectionView.alwaysBounceVertical = true
-        self.collectionView.contentInset = contentInsets
-
-        //Header view
-        headerView = StoryHeaderView(frame: CGRect(x: 0, y: 0, width: windowWidth, height: 60))
-        headerView.closeButton.addTarget(self, action: #selector(backToStoriesList), for: .touchUpInside)
-        
-        //Next episode
+    @IBAction func backToStories(_ sender: UIButton) {
+        backToStoriesList()
+    }
+    
+    func configureViews() {
+        setupCollectionView()
+        configureNextEpisode()
+        addRecognizer()
+    }
+    
+    func setupCollectionView() {
+        collectionView.delegate   = self
+        collectionView.dataSource = self
+        collectionView.register(MessageCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        collectionView.alwaysBounceVertical = true
+        collectionView.contentInset = contentInsets
+    }
+    
+    func configureNextEpisode() {
         nextEpisodeLabel.text = "Next episode..."
         nextEpisodeLabel.textColor = .black
         nextEpisodeLabel.font = UIFont.systemFont(ofSize: 12.0)
     }
     
-    func takeProgressValue() -> Double {
-        return Double(Float((story?.messages.filter({$0.isShown}).count)!)/Float((story?.messages.count)!))
+    func addRecognizer() {
+        gestureRecognizer.addTarget(self, action: #selector(showNextMessage))
+        view.addGestureRecognizer(gestureRecognizer)
     }
-
-    func scrollToBottom(){
-        if shownMessages.count > 0 {
-            let lastItemIndex = NSIndexPath(item: (shownMessages.filter({$0.isShown}).count) - 1, section: 0)
-            collectionView?.scrollToItem(at: lastItemIndex as IndexPath, at: .bottom, animated: true)
-        }
-    }
-
     
-    func invalidateTimer(){
+    func takeProgressValue() -> Double {
+        guard let story = story else { return 0 }
+        
+        return Double(Float(story.messages.filter({$0.isShown}).count)/Float(story.messages.count))
+    }
+
+    func scrollToBottom() {
+        guard shownMessages.count > 0 else { return }
+        
+        let lastItemIndex = IndexPath(item: (shownMessages.filter({$0.isShown}).count) - 1, section: 0)
+        collectionView?.scrollToItem(at: lastItemIndex, at: .bottom, animated: true)
+    }
+    
+    func invalidateTimer() {
         timer?.invalidate()
         timer = nil
         timerView?.removeFromSuperview()
     }
-
     
-    func showTimer(){
+    func showTimer() {
         self.count = timerInterval
         //Configure views
         collectionView.contentSize.height = collectionView.contentSize.height + 270
@@ -161,16 +168,15 @@ final class StoryViewController: UIViewController {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(self.updateTimer), userInfo: nil, repeats: true)
     }
     
-    
     func showNextStory() {
         isFinished = true
         configureNextStoryViews()
-        if nextStory != nil {
-            fillStoryViewData()
-        }
+        guard nextStory != nil else { return }
+        
+        fillStoryViewData()
     }
     
-    func configureNextStoryViews(){
+    func configureNextStoryViews() {
         collectionView.contentSize.height = collectionView.contentSize.height + 270
         nextEpisodeLabel.frame = CGRect(x: 15, y: collectionView.contentSize.height - 240, width: view.bounds.width, height: 20)
         storyView = StoryView(frame: CGRect(x: 0, y: collectionView.contentSize.height - 220, width: view.bounds.width, height: 220))
@@ -223,7 +229,7 @@ final class StoryViewController: UIViewController {
         self.dismiss(animated: true, completion: nil)
     }
 
-    func updateTimer(){
+    func updateTimer() {
         if(count > 0){
             timerView?.countDownLabel.text = count.getTimerString()
             count -= 1
@@ -232,41 +238,38 @@ final class StoryViewController: UIViewController {
         }
     }
     
-    func showNextMessage(){
-        if timer == nil {
-            if let nextMessage = story?.messages.first(where: {!$0.isShown}) {
-            
-                nextMessage.isShown = true
-                if nextMessage.breakMessage != nil {
-                    showTimer()
-                } else {
-                    shownMessages.append(nextMessage)
-                    collectionView.reloadData()
-                    scrollToBottom()
-                }
-            } else if !isFinished {
-                showNextStory()
+    func showNextMessage() {
+        guard timer == nil else { return }
+        
+        if let nextMessage = story?.messages.first(where: {!$0.isShown}) {
+        
+            nextMessage.isShown = true
+            if nextMessage.breakMessage != nil {
+                showTimer()
+            } else {
+                shownMessages.append(nextMessage)
+                collectionView.reloadData()
+                scrollToBottom()
             }
+        } else if !isFinished {
+            showNextStory()
         }
     }
     
-    func presentNextStory(){
-        self.dismiss(animated: false, completion: {
-            Navigator.present("navigator://story/\((self.nextStory?.contentFileName)!)")})
+    func presentNextStory() {
+        self.dismiss(animated: false, completion: { [weak self] _ in
+            guard let `self` = self, let nextStory = self.nextStory else { return }
+            
+            Navigator.present("navigator://story/\(nextStory.contentFileName)") })
     }
 }
 
-//MARK : Extentions
-
+// MARK: - Extentions
 extension StoryViewController: URLNavigable {
     convenience init?(navigation: Navigation) {
-        let storyUrl = navigation.values["storyUrl"] as? String?
+        guard let storyUrl = navigation.values["storyUrl"] as? String else { return nil }
         
-        guard storyUrl != nil else {
-            return nil
-        }
-        
-        self.init(storyUrl: storyUrl!!)
+        self.init(storyUrl: storyUrl)
     }
 }
 
@@ -293,10 +296,9 @@ extension StoryViewController :  UICollectionViewDelegateFlowLayout, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if story != nil {
-            let count = shownMessages.count
-            return count
-        } else { return 0 }
+        guard  story != nil else { return 0 }
+        
+        return shownMessages.count
     }
     
    func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -344,12 +346,10 @@ extension StoryViewController :  UICollectionViewDelegateFlowLayout, UICollectio
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if headerView != nil {
-            if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
-                headerView.isHidden = false
-            } else {
-                headerView.isHidden = true
-            }
+        if scrollView.panGestureRecognizer.translation(in: scrollView.superview).y > 0 {
+            storyHeaderView.isHidden = false
+        } else {
+            storyHeaderView.isHidden = true
         }
     }
 

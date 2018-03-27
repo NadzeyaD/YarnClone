@@ -19,6 +19,7 @@ class TimerView: UIView {
     //MARK : Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
         self.self.backgroundColor = .black
         countDownLabel.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
         self.addSubview(imageBackgroundView)
